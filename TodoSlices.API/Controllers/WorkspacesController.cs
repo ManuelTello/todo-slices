@@ -1,28 +1,26 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TodoSlices.API.Data;
-using TodoSlices.API.Features.Workspaces.CreateWorkspaces;
+using TodoSlices.API.Features.Workspaces.CreateWorkspace;
 
 namespace TodoSlices.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/workspace")]
     [ApiController]
     public class WorkspacesController : ControllerBase
     {
-        private readonly TodoSlicesDatabaseContext _databaseContext;
         private readonly ISender _sender;
 
         public WorkspacesController(TodoSlicesDatabaseContext context, ISender sender)
         {
-            this._databaseContext = context;
             this._sender = sender;
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> CreateWorkspace(CreateWorkspacesCommand newWorkspace)
+        public async Task<ActionResult<Guid>> CreateWorkspace(CreateWorkspacesCommand command)
         {
-            Guid workspaceId = await this._sender.Send(newWorkspace);
-            return Ok(workspaceId);
+            Guid workspaceGuid = await this._sender.Send(command);
+            return Ok(workspaceGuid);
         }
     }
 }
