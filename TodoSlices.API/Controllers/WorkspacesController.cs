@@ -4,6 +4,7 @@ using TodoSlices.API.Data;
 using TodoSlices.API.Entities;
 using TodoSlices.API.Features.Workspaces.CreateWorkspace;
 using TodoSlices.API.Features.Workspaces.GetWorkspace;
+using TodoSlices.API.Features.Workspaces.RemoveWorkspace;
 
 namespace TodoSlices.API.Controllers
 {
@@ -16,6 +17,13 @@ namespace TodoSlices.API.Controllers
         public WorkspacesController(TodoSlicesDatabaseContext context, ISender sender)
         {
             this._sender = sender;
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> RemoveWorkspace(RemoveWorkspacesCommand command)
+        {
+            Guid workspaceGuid = await this._sender.Send(command);
+            return Ok(workspaceGuid);
         }
 
         [HttpGet("{id}")]
