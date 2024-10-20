@@ -10,8 +10,6 @@ namespace TodoSlices.API.Entities
 
         public DateTime DateCreated { get; set; }
 
-        public DateTime? DateDeleted { get; set; }
-
         public EntryColumn EntryColumn { get; set; } = null!;
     }
 }

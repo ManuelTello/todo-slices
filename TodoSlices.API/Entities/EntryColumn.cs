@@ -10,8 +10,6 @@ namespace TodoSlices.API.Entities
 
         public DateTime DateCreated { get; set; }
 
-        public DateTime? DateDeleted { get; set; }
-
         public Board Board { get; set; } = null!;
 
         public ICollection<EntryRow> EntryRows { get; } = new List<EntryRow>();
