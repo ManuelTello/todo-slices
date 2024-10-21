@@ -5,6 +5,7 @@ using TodoSlices.API.Entities;
 using TodoSlices.API.Features.Workspaces.CreateWorkspace;
 using TodoSlices.API.Features.Workspaces.GetWorkspace;
 using TodoSlices.API.Features.Workspaces.RemoveWorkspace;
+using TodoSlices.API.Features.Workspaces.UpdateWorkspace;
 
 namespace TodoSlices.API.Controllers
 {
@@ -27,9 +28,9 @@ namespace TodoSlices.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetWorkspace(string guid)
+        public async Task<ActionResult> GetWorkspace(string id)
         {
-            Workspace? workspace = await this._sender.Send(new GetWorkspaceQuery { WorkspaceId = new Guid(guid) });
+            Workspace? workspace = await this._sender.Send(new GetWorkspaceQuery { WorkspaceId = new Guid(id) });
             if (workspace == null)
                 return NotFound();
             else
@@ -41,6 +42,13 @@ namespace TodoSlices.API.Controllers
         {
             Guid workspaceGuid = await this._sender.Send(command);
             return Ok(workspaceGuid);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateWorkspace(UpdateWorkspaceCommand command)
+        {
+            await this._sender.Send(command);
+            return Ok();
         }
     }
 }
