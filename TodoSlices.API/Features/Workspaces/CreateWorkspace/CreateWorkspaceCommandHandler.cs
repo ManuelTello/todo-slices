@@ -6,11 +6,11 @@ namespace TodoSlices.API.Features.Workspaces.CreateWorkspace
 {
     internal sealed class Handler : IRequestHandler<CreateWorkspacesCommand, Guid>
     {
-        private readonly TodoSlicesDatabaseContext _dataContext;
+        private readonly TodoSlicesDatabaseContext _databaseContext;
 
         public Handler(TodoSlicesDatabaseContext dataContext)
         {
-            this._dataContext = dataContext;
+            this._databaseContext = dataContext;
         }
 
         public async Task<Guid> Handle(CreateWorkspacesCommand request, CancellationToken cancellationToken)
@@ -23,8 +23,8 @@ namespace TodoSlices.API.Features.Workspaces.CreateWorkspace
                 DateCreated = request.DateCreated,
             };
 
-            await this._dataContext.Workspaces.AddAsync(newWorkspace);
-            await this._dataContext.SaveChangesAsync(cancellationToken);
+            await this._databaseContext.Workspaces.AddAsync(newWorkspace);
+            await this._databaseContext.SaveChangesAsync(cancellationToken);
 
             return newWorkspace.Id;
         }
